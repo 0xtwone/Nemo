@@ -1,7 +1,6 @@
 import os
 import requests
 import json
-import schedule
 import time
 import subprocess
 import sys
@@ -143,23 +142,4 @@ def poll():
         return None
 
 if __name__ == "__main__":
-    if '--once' in sys.argv:
-         # 只执行一次 poll() 并输出最终结果（用于通过子进程调用时解析）
-         result = poll()
-         if result:
-             print("FINAL_RESPONSE: " + result)
-         else:
-             print("FINAL_RESPONSE: No new transactions.")
-         sys.exit(0)
-    else:
-         # 设置轮询间隔（例如每 5 秒一次，生产环境中可改为更长间隔，如 5 分钟）
-         schedule.every(5).seconds.do(poll)
-         
-         print("启动轮询任务，每 5 秒检测一次数据更新...")
-         # 首次轮询
-         poll()
-         
-         # 循环等待下一次调度任务
-         while True:
-             schedule.run_pending()
-             time.sleep(1)
+    poll()
