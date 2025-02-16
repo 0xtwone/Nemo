@@ -135,7 +135,7 @@ export default function PetInteractionPage() {
               </button>
             ) : (
               <button
-                onClick={() => alert("Chat ended – further features coming soon...")}
+                onClick={() => router.push("/fetch-transfers")}
                 className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 pixel-font"
               >
                 Done
