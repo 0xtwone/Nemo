@@ -26,11 +26,6 @@
       "static/chunks/webpack.js",
       "static/chunks/main.js",
       "static/chunks/pages/fetch-transfers.js"
-    ],
-    "/pet-interaction": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/pet-interaction.js"
     ]
   },
   "ampFirstPages": []

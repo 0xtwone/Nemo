@@ -2,6 +2,5 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/fetch-transfers": "pages/fetch-transfers.js",
-  "/pet-interaction": "pages/pet-interaction.js"
+  "/fetch-transfers": "pages/fetch-transfers.js"
 }

@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/router';
-import Image from 'next/image';
+import CustomImage from '../components/CustomImage';
 
 interface Pet {
   id: 'conservative' | 'aggressive' | 'balanced';
@@ -51,8 +51,25 @@ export default function FetchTransfersPage() {
   const selectedPet = petIdFinal ? pets.find(pet => pet.id === petIdFinal) : null;
   const petToShow = selectedPet || pets[0];
 
-  const handleTransfer = () => {
-    alert("Transfer feature coming soon!");
+  // 新增 state 保存 app.py 的 response
+  const [castResponse, setCastResponse] = useState<string | null>(null);
+  // 新增 state 用于控制加载状态
+  const [loading, setLoading] = useState<boolean>(false);
+
+  // 修改后的 handleTransfer：从 Flask 的 /fetchTransfer 获取数据并更新 state
+  const handleTransfer = async () => {
+    // 开始加载
+    setLoading(true);
+    try {
+      const response = await fetch("http://127.0.0.1:5000/fetchTransfer");
+      const data = await response.json();
+      setCastResponse(data.result);
+    } catch (error: any) {
+      setCastResponse("Error fetching transfer: " + error.message);
+    } finally {
+      // 无论成功与否，都结束加载
+      setLoading(false);
+    }
   };
 
   return (
@@ -60,7 +77,7 @@ export default function FetchTransfersPage() {
       <div className="flex flex-col md:flex-row items-center bg-white rounded-lg shadow-lg p-6 max-w-4xl w-full">
         {/* 宠物展示区域 */}
         <div className="mb-6 md:mb-0 md:mr-6 flex-shrink-0">
-          <Image
+          <CustomImage
             src={petToShow.petImage}
             alt={petToShow.name}
             width={150}
@@ -82,13 +99,21 @@ export default function FetchTransfersPage() {
               Interact with me by clicking the button below.
             </p>
           </div>
-          <div className="flex justify-center">
+          <div className="flex flex-col items-center">
             <button
               onClick={handleTransfer}
               className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 pixel-font"
+              disabled={loading}
             >
-              Fetch Transfers
+              {loading ? "Loading..." : "Fetch Transfers"}
             </button>
+            {/* 展示 app.py 返回的 response */}
+            {castResponse && (
+              <div className="mt-4 p-4 bg-gray-50 border rounded">
+                <h2 className="text-lg font-semibold mb-2">Response:</h2>
+                <p>{castResponse}</p>
+              </div>
+            )}
           </div>
         </div>
       </div>
