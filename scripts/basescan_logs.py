@@ -123,10 +123,9 @@ def poll():
                     cast_message = " ".join(cast_message.strip().split())
                     print("Received response from app.py:", cast_message)
                     try:
-                        # 第二步：调用 takocast.js 将 app.py 回复中的 cast 发送出去
+                        # 第二步：调用 takocast.js 并通过命令行参数传递 cast_message
                         result = subprocess.run(
-                            ["node", "takocast.js"],
-                            input=cast_message,   # 将 cast_message 通过标准输入传递
+                            ["node", "scripts/takocast.js", cast_message],
                             capture_output=True, text=True, check=True
                         )
                         print("Tako cast 返回:", result.stdout)

@@ -1,4 +1,3 @@
-
 require('dotenv').config();
 
 const takoAPIKey = process.env.TAKO_API_KEY;
