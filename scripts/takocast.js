@@ -1,4 +1,5 @@
 require('dotenv').config();
+const { castToFarcaster } = require('./farcaster_cast');
 
 const takoAPIKey = process.env.TAKO_API_KEY;
 // 修改后的 Tako 的 cast API endpoint（使用新的 API URL）
@@ -62,6 +63,15 @@ async function castToTako(message) {
   }
   
   const result = await response.json();
+  
+  // 同步调用 Farcaster cast 功能
+  try {
+    const farcasterResult = await castToFarcaster(message);
+    console.log('Farcaster cast 返回:', farcasterResult);
+  } catch (error) {
+    console.error('发送 Farcaster cast 时出错:', error);
+  }
+  
   return result;
 }
 
